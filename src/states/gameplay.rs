@@ -9,7 +9,7 @@ use amethyst::{
     tiles::{MapStorage, TileMap},
 };
 
-use crate::resources::SimpleTile;
+use crate::resources::{Hero, SimpleTile};
 
 pub struct GameplayState {
     pub tileset_handle: Handle<SpriteSheet>,
@@ -76,5 +76,6 @@ fn init_hero(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
         .with(transform)
         .with(sprite_render)
         .with(Transparent)
+        .with(Hero::new())
         .build();
 }

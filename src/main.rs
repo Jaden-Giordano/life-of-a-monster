@@ -12,9 +12,11 @@ use amethyst::{
 };
 
 use crate::states::LoadingState;
+use crate::systems::HeroMovementSystem;
 use crate::resources::SimpleTile;
 
 mod states;
+mod systems;
 mod resources;
 
 fn main() -> amethyst::Result<()> {
@@ -40,7 +42,8 @@ fn main() -> amethyst::Result<()> {
                 .with_plugin(RenderFlat2D::default())
                 .with_plugin(RenderTiles2D::<SimpleTile>::default()),
         )?
-        .with_bundle(TransformBundle::new())?;
+        .with_bundle(TransformBundle::new())?
+        .with(HeroMovementSystem, "hero_movement_system", &[]);
 
     let mut game = Application::new(assets_dir, LoadingState::default(), game_data)?;
     game.run();
