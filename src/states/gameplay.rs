@@ -36,7 +36,7 @@ fn init_camera(world: &mut World) {
 
 fn init_map(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
     let mut map = TileMap::<SimpleTile>::new(
-        Vector3::new(8, 7, 1),
+        Vector3::new(8, 8, 1),
         Vector3::new(8, 8, 1),
         Some(sprite_sheet_handle),
     );
@@ -48,6 +48,11 @@ fn init_map(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
             *map.get_mut(&Point3::<u32>::new(x, y, 0)).unwrap() = SimpleTile(Some(0));
         });
     });
+
+    *map.get_mut(&Point3::<u32>::new(2, 3, 0)).unwrap() = SimpleTile(Some(2));
+    *map.get_mut(&Point3::<u32>::new(3, 3, 0)).unwrap() = SimpleTile(Some(1));
+    *map.get_mut(&Point3::<u32>::new(4, 3, 0)).unwrap() = SimpleTile(Some(1));
+    *map.get_mut(&Point3::<u32>::new(5, 3, 0)).unwrap() = SimpleTile(Some(3));
 
     world
         .create_entity()
