@@ -5,7 +5,7 @@ use amethyst::{
         transform::Transform,
     },
     prelude::*,
-    renderer::{Camera, SpriteSheet, Transparent},
+    renderer::{Camera, SpriteSheet},
     tiles::{MapStorage, TileMap},
 };
 
@@ -30,21 +30,22 @@ fn init_camera(world: &mut World) {
     world
         .create_entity()
         .with(transform)
-        .with(Camera::standard_2d(400.0, 400.0))
+        .with(Camera::standard_2d(64.0, 64.0))
         .build();
 }
 
 fn init_map(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
     let mut map = TileMap::<SimpleTile>::new(
-        Vector3::new(10, 10, 1),
-        Vector3::new(16, 16, 1),
+        Vector3::new(8, 7, 1),
+        Vector3::new(8, 8, 1),
         Some(sprite_sheet_handle),
     );
-    let transform = Transform::default();
+    let mut transform = Transform::default();
+    transform.set_translation_xyz(4.0, -4.0, 0.0);
 
-    (0..10).for_each(|x| {
-        (0..10).for_each(|y| {
-            *map.get_mut(&Point3::<u32>::new(x, y, 0)).unwrap() = SimpleTile(Some(33));
+    (0..8).for_each(|x| {
+        (0..8).for_each(|y| {
+            *map.get_mut(&Point3::<u32>::new(x, y, 0)).unwrap() = SimpleTile(Some(0));
         });
     });
 

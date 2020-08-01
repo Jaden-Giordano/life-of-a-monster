@@ -16,7 +16,7 @@ impl SimpleState for LoadingState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         self.progress_counter = Some(ProgressCounter::new());
         let world = data.world;
-        self.sprite_sheet_handle = Some(load_sprite_sheet("texture/world", world, &mut self.progress_counter));
+        self.sprite_sheet_handle = Some(load_sprite_sheet("texture/tiles", world, &mut self.progress_counter));
     }
 
     fn update(&mut self, _data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {

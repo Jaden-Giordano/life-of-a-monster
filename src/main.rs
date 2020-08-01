@@ -2,6 +2,7 @@ use amethyst::{
     core::{transform::TransformBundle},
     prelude::*,
     renderer::{
+        palette::Srgba,
         plugins::{RenderFlat2D, RenderToWindow},
         types::DefaultBackend,
         RenderingBundle,
@@ -25,12 +26,16 @@ fn main() -> amethyst::Result<()> {
     let config_dir = app_root.join("config");
     let display_config_path = config_dir.join("display.ron");
 
+    let (r, g, b, a) = Srgba::new(34. / 255., 12. / 255., 39. / 255., 1.0)
+        .into_linear()
+        .into_components();
+
     let game_data = GameDataBuilder::default()
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
                     RenderToWindow::from_config_path(display_config_path)?
-                        .with_clear([0.34, 0.36, 0.52, 1.0]),
+                        .with_clear([r, g, b, a]),
                 )
                 .with_plugin(RenderFlat2D::default())
                 .with_plugin(RenderTiles2D::<SimpleTile>::default()),

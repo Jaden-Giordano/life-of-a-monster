@@ -5,7 +5,7 @@ use amethyst::{
 };
 
 #[derive(Clone, Default)]
-pub struct SimpleTile(Option<usize>);
+pub struct SimpleTile(pub Option<usize>);
 
 impl Tile for SimpleTile {
     fn sprite(&self, _: Point3<u32>, _: &World) -> Option<usize> {
