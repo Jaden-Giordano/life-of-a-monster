@@ -9,21 +9,26 @@ use crate::states::GameplayState;
 #[derive(Default)]
 pub struct LoadingState {
     progress_counter: Option<ProgressCounter>,
-    sprite_sheet_handle: Option<Handle<SpriteSheet>>,
+    tileset_handle: Option<Handle<SpriteSheet>>,
+    entity_sprites_handle: Option<Handle<SpriteSheet>>,
 }
 
 impl SimpleState for LoadingState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         self.progress_counter = Some(ProgressCounter::new());
         let world = data.world;
-        self.sprite_sheet_handle = Some(load_sprite_sheet("texture/tiles", world, &mut self.progress_counter));
+        self.tileset_handle = Some(load_sprite_sheet("texture/tiles", world, &mut self.progress_counter));
+        self.entity_sprites_handle = Some(load_sprite_sheet("texture/entities", world, &mut self.progress_counter));
     }
 
     fn update(&mut self, _data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
         if self.progress_counter.as_ref().unwrap().is_complete() {
             Trans::Switch(Box::new(GameplayState {
-                sprite_sheet_handle: self.sprite_sheet_handle.take().expect(
-                    "Expected `texture_handle` to exist when `progress_counter` is complete",
+                tileset_handle: self.tileset_handle.take().expect(
+                    "Expected `tileset_handle` to exist when `progress_counter` is complete",
+                ),
+                entity_sprites_handle: self.entity_sprites_handle.take().expect(
+                    "Expected `entity_sprite_handle` to exist when `progress_counter` is complete",
                 ),
             }))
         } else {

@@ -5,27 +5,29 @@ use amethyst::{
         transform::Transform,
     },
     prelude::*,
-    renderer::{Camera, SpriteSheet},
+    renderer::{Camera, SpriteRender, SpriteSheet, Transparent},
     tiles::{MapStorage, TileMap},
 };
 
 use crate::resources::SimpleTile;
 
 pub struct GameplayState {
-    pub sprite_sheet_handle: Handle<SpriteSheet>,
+    pub tileset_handle: Handle<SpriteSheet>,
+    pub entity_sprites_handle: Handle<SpriteSheet>,
 }
 
 impl SimpleState for GameplayState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
         init_camera(world);
-        init_map(world, self.sprite_sheet_handle.clone());
+        init_map(world, self.tileset_handle.clone());
+        init_hero(world, self.entity_sprites_handle.clone());
     }
 }
 
 fn init_camera(world: &mut World) {
     let mut transform = Transform::default();
-    transform.set_translation_xyz(0.0, 0.0, 1.0);
+    transform.set_translation_xyz(32.0, -32.0, 8.0);
 
     world
         .create_entity()
@@ -41,7 +43,7 @@ fn init_map(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
         Some(sprite_sheet_handle),
     );
     let mut transform = Transform::default();
-    transform.set_translation_xyz(4.0, -4.0, 0.0);
+    transform.set_translation_xyz(36., -36., 0.);
 
     (0..8).for_each(|x| {
         (0..8).for_each(|y| {
@@ -58,5 +60,21 @@ fn init_map(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
         .create_entity()
         .with(map)
         .with(transform)
+        .build();
+}
+
+fn init_hero(world: &mut World, sprite_sheet_handle: Handle<SpriteSheet>) {
+    let mut transform = Transform::default();
+    transform.set_translation_xyz(2. * 8. + 4., -4. * 8. + 4., 1.);
+    let sprite_render = SpriteRender {
+        sprite_number: 0,
+        sprite_sheet: sprite_sheet_handle,
+    };
+
+    world
+        .create_entity()
+        .with(transform)
+        .with(sprite_render)
+        .with(Transparent)
         .build();
 }
