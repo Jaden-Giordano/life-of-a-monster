@@ -7,13 +7,13 @@ use amethyst::{
         types::DefaultBackend,
         RenderingBundle,
     },
-    tiles::RenderTiles2D,
+    tiles::{FlatEncoder, RenderTiles2D},
     utils::application_root_dir,
 };
 
 use crate::states::LoadingState;
-use crate::systems::HeroMovementSystem;
-use crate::resources::SimpleTile;
+use crate::systems::{FightingSystem, ProgressionSystem};
+use crate::resources::DungeonRenderTile;
 
 mod states;
 mod systems;
@@ -40,10 +40,11 @@ fn main() -> amethyst::Result<()> {
                         .with_clear([r, g, b, a]),
                 )
                 .with_plugin(RenderFlat2D::default())
-                .with_plugin(RenderTiles2D::<SimpleTile>::default()),
+                .with_plugin(RenderTiles2D::<DungeonRenderTile, FlatEncoder>::default()),
         )?
         .with_bundle(TransformBundle::new())?
-        .with(HeroMovementSystem, "hero_movement_system", &[]);
+        .with(ProgressionSystem, "progression_system", &[])
+        .with(FightingSystem::default(), "fighting_system", &[]);
 
     let mut game = Application::new(assets_dir, LoadingState::default(), game_data)?;
     game.run();

@@ -1,5 +1,7 @@
-pub use self::hero::Hero;
-pub use self::tiles::SimpleTile;
+pub use self::dungeon::Dungeon;
+pub use self::hero::{Hero, HeroState};
+pub use self::tiles::{DungeonTile, DungeonRenderTile};
 
+mod dungeon;
 mod hero;
 mod tiles;

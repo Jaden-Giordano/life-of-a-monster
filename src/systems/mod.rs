@@ -1,3 +1,5 @@
-pub use self::hero_movement::HeroMovementSystem;
+pub use self::progression::ProgressionSystem;
+pub use self::fighting::FightingSystem;
 
-mod hero_movement;
+mod progression;
+mod fighting;
