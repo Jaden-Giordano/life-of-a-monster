@@ -1,5 +1,6 @@
 use amethyst::{
     core::{transform::TransformBundle},
+    input::StringBindings,
     prelude::*,
     renderer::{
         palette::Srgba,
@@ -40,7 +41,7 @@ fn main() -> amethyst::Result<()> {
                         .with_clear([r, g, b, a]),
                 )
                 .with_plugin(RenderFlat2D::default())
-                .with_plugin(RenderTiles2D::<DungeonRenderTile, FlatEncoder>::default()),
+                .with_plugin(RenderTiles2D::<DungeonRenderTile, FlatEncoder>::default())
         )?
         .with_bundle(TransformBundle::new())?
         .with(ProgressionSystem, "progression_system", &[])
